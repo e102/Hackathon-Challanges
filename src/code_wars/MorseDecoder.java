@@ -1,4 +1,4 @@
-package codeWars;
+package src.code_wars;
 
 import static java.lang.Math.min;
 
