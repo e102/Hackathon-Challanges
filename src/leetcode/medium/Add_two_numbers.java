@@ -42,7 +42,7 @@ public class Add_two_numbers {
     }
 
     private ListNode bigInt_to_listNode(BigInteger input) {
-        char[] input_as_char_array = new String(input.toByteArray()).toCharArray();
+        char[] input_as_char_array = input.toString().toCharArray();
         ListNode[] outputList = new ListNode[input_as_char_array.length];
 
         for (int i = 0; i < input_as_char_array.length; i++) {
@@ -56,8 +56,7 @@ public class Add_two_numbers {
     }
 
     private BigInteger reverseBigInt(BigInteger input) {    //todo number format error
-        System.out.println(new String(input.toByteArray()).toCharArray());
-        char[] input_as_char_array = new String(input.toByteArray()).toCharArray();
+        char[] input_as_char_array = input.toString().toCharArray();
         for (int i = 0; i < input_as_char_array.length / 2; i++) {
             char temp = input_as_char_array[i];
             input_as_char_array[i] = input_as_char_array[input_as_char_array.length - i - 1];
