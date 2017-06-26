@@ -1,8 +1,10 @@
 package leetcode.medium;
 
+import java.math.BigInteger;
+
 /**
  * <p>
- * You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
+ * You are given two non-empty linked lists representing two non-negative longegers. The digits are stored in reverse order and each of their nodes contain a single digit. Add the two numbers and return it as a linked list.
  * <p>
  * You may assume the two numbers do not contain any leading zero, except the number 0 itself.
  * <p>
@@ -10,49 +12,66 @@ package leetcode.medium;
  * Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
  * Output: 7 -> 0 -> 8
  */
-//public class Solution {
+
+//TODO: Handle length 1 linked lists
+
 public class Add_two_numbers {
     public ListNode addTwoNumbers(ListNode node_1, ListNode node_2) {
-        int node_1_int_value = linked_list_to_int(node_1);
-        int node_2_int_value = linked_list_to_int(node_2);
-        int total = node_1_int_value + node_2_int_value;
+        BigInteger node_1_value = new BigInteger(linked_list_to_string(node_1));
+        BigInteger node_2_value = new BigInteger(linked_list_to_string(node_2));
+        BigInteger total = node_1_value.add(node_2_value);
 
-        return int_to_listNode(total);
+        BigInteger reversedTotal = reverseBigInt(total);
+        return bigInt_to_listNode(reversedTotal);
     }
 
-    private int linked_list_to_int(ListNode node) {
-        String int_as_string = "";
+    private String linked_list_to_string(ListNode node) {
+        StringBuilder string_value = new StringBuilder();
 
         while (true) {
-            int_as_string = node.val + int_as_string;
+            string_value.insert( 0, node.val);
 
             if (node.next == null) {
                 break;
+            } else {
+                node = node.next;
             }
         }
 
-        return Integer.parseInt(int_as_string);
+        return string_value.toString();
     }
 
-    private ListNode int_to_listNode(int input) {
-        char[] input_as_char_array = Integer.toString(input).toCharArray();
+    private ListNode bigInt_to_listNode(BigInteger input) {
+        char[] input_as_char_array = new String(input.toByteArray()).toCharArray();
         ListNode[] outputList = new ListNode[input_as_char_array.length];
 
         for (int i = 0; i < input_as_char_array.length; i++) {
-            outputList[outputList.length - 1 - i] = new ListNode(input_as_char_array[i]);
+            outputList[i] = new ListNode(Character.getNumericValue(input_as_char_array[i]));
             if (i != 0) {
-                outputList[outputList.length - 1 - i].next = outputList[outputList.length - i];
+                outputList[i - 1].next = outputList[i];
             }
         }
 
         return outputList[0];
     }
 
+    private BigInteger reverseBigInt(BigInteger input) {    //todo number format error
+        System.out.println(new String(input.toByteArray()).toCharArray());
+        char[] input_as_char_array = new String(input.toByteArray()).toCharArray();
+        for (int i = 0; i < input_as_char_array.length / 2; i++) {
+            char temp = input_as_char_array[i];
+            input_as_char_array[i] = input_as_char_array[input_as_char_array.length - i - 1];
+            input_as_char_array[input_as_char_array.length - i - 1] = temp;
+        }
+
+        return new BigInteger(new String(input_as_char_array));
+    }
+
     private class ListNode {
-        int val;
+        long val;
         ListNode next;
 
-        ListNode(int x) {
+        ListNode(long x) {
             val = x;
         }
     }
